@@ -1,22 +1,54 @@
-name: Auto Release
+# name: Auto Release
 
-on:
-  pull_request:
-    types:
-      - closed
+# on:
+#   pull_request:
+#     types:
+#       - closed
 
-jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# jobs:
+#   if_merged:
+#     if: github.event.pull_request.merged == true
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Build Changelog
+#         id: github_release
+#         uses: mikepenz/release-changelog-builder-action@v3
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v0.1.14
-        with:
-          body: ${{steps.github_release.outputs.changelog}}
+#       - name: Create Release
+#         uses: softprops/action-gh-release@v0.1.14
+#         with:
+#           body: ${{steps.github_release.outputs.changelog}}
+
+
+# jobs:
+#   release:
+#     runs-on: ubuntu-latest
+#     if: github.event.pull_request.merged == true
+#     steps:
+#       - uses: actions/checkout@v2
+
+#       - name: Prepare repository
+#         run: git fetch --unshallow --tags
+
+#       - name: Use Node.js 12.x
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 12.x
+
+#       - name: Cache node modules
+#         uses: actions/cache@v1
+#         with:
+#           path: node_modules
+#           key: yarn-deps-${{ hashFiles('yarn.lock') }}
+#           restore-keys: |
+#             yarn-deps-${{ hashFiles('yarn.lock') }}
+
+#       - name: Create Release
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: |
+#           yarn install --frozen-lockfile
+#           yarn build
+#           npx auto shipit
