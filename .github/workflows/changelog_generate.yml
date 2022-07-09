@@ -27,7 +27,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number  }}
         run: |
           touch "changelog/unreleased/PR-$PR_TITLE"
-          echo "[($PR_NUMBER)[https://github.com/tgs266/rest-gen/pull/$PR_NUMBER]] $PR_TITLE" > "changelog/unreleased/PR-$PR_TITLE"
+          echo "[#[$PR_NUMBER](https://github.com/tgs266/rest-gen/pull/$PR_NUMBER)] $PR_TITLE" > "changelog/unreleased/PR-$PR_TITLE"
       - uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
