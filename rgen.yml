@@ -1,0 +1,3 @@
+definitions:
+  input-dir: ./test
+  output-dir: ./test-gen

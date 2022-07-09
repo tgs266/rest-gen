@@ -1,0 +1,18 @@
+package: com.restgen.recipe.structs
+types:
+  objects:
+    Measurement:
+      docs: |
+        This struct holds a single measurement for a recipe
+      fields:
+        unit: string
+        value: float
+    Step:
+      fields: 
+        measurement: Measurement
+        action: string
+    Recipe:
+      fields:
+        id: string
+        name: string
+        steps: list<Step>

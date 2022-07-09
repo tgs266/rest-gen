@@ -1,0 +1,14 @@
+package: com.restgen.recipe.service
+imports:
+  - com.restgen.recipe.structs
+services:
+  RecipeService:
+    base-path: /api/v1/recipe
+    endpoints:
+      getRecipe:
+        http: GET /{id}
+        docs: returns a single recipe
+        args:
+          path:
+            id: string
+        returns: structs.Recipe
