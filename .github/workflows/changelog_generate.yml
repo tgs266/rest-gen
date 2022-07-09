@@ -13,11 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
-      - name: Get PR info
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_NUMBER: ${{ github.event.pull_request.number  }}
+          ref: ${{ github.event.pull_request.head.ref }}        
       - name: Get PR labels
         id: pr-labels
         uses: joerick/pr-labels-action@v1.0.6
@@ -26,6 +22,9 @@ jobs:
       - name: Create unreleased folder
         run: mkdir -p changelog/unreleased
       - name: Write pr
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number  }}
         run: |
           touch "changelog/unreleased/PR-$PR_TITLE"
           echo "[($PR_NUMBER)[https://github.com/tgs266/rest-gen/pull/$PR_NUMBER]] $PR_TITLE" > "changelog/unreleased/PR-$PR_TITLE"
