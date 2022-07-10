@@ -30,6 +30,11 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 	}
 
 	file.Add(statement).Type().Id(name).Struct(structFields...).Line()
+
+	if object.Builder {
+		file.Add(writeStructBuilderType(name, object)).Line()
+	}
+
 	writeStructMarshal(file, "encoding/json", "MarshalJSON", name, object).Line()
 	writeStructUnmarshal(file, "encoding/json", "UnmarshalJSON", name, object).Line()
 	writeStructMarshal(file, "gopkg.in/yaml.v3", "MarshalYAML", name, object).Line()
@@ -97,4 +102,18 @@ func writeStructUnmarshalInner(
 	return jen.Return(
 		jen.Qual(pkgName, "Unmarshal").Call(jen.Id("bytes"), jen.Op("&").Id(lowerName)),
 	)
+}
+
+func writeStructBuilderType(
+	name string,
+	object *spec.Object,
+) jen.Code {
+	structFields := []jen.Code{}
+	for _, fieldName := range utils.GetSortedKeys(object.ParsedFields) {
+		fieldData := object.ParsedFields[fieldName]
+		code := jen.Empty()
+		code.Id(strcase.ToCamel(fieldName)).Add(fieldData.Type.Write())
+		structFields = append(structFields, code)
+	}
+	return jen.Type().Id(strcase.ToLowerCamel(name) + "Builder").Struct(structFields...)
 }
