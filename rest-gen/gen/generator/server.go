@@ -58,7 +58,7 @@ func (sg *ServerGenerator) writeRegisterRoutes(
 
 func writeServerHandlerStruct(file *jen.File, name string) {
 	file.Type().Id(name + "Handler").Struct(
-		jen.Id("handler").Id(name + "Interface"),
+		jen.Id("Handler").Id(name + "Interface"),
 	)
 }
 
@@ -81,7 +81,7 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 
 	resultName := endpointName + "Result"
 
-	fcnCall := jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("handler").Dot(endpointName).Call(params...)
+	fcnCall := jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("Handler").Dot(endpointName).Call(params...)
 	fcnHandle := jen.If(jen.Id("err").Op("!=").Nil()).Block(sg.generator.WriteErrReturn("err"))
 	var fcnReturn jen.Code
 	if endpoint.HasValueReturn() {
