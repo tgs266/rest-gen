@@ -20,7 +20,7 @@ func (gsg GinServerGenerator) WriteRegisterRoutes(name string, service *spec.Ser
 		statements = append(statements, gsg.writeRegisterRoutesRoute(endpointName, endpoint, "handler"))
 	}
 	return jen.Func().Id("Register"+name+"Routes").Params(
-		jen.Id("router").Op("*").Qual(ginImport, "Router"),
+		jen.Id("router").Op("*").Qual(ginImport, "Engine"),
 		jen.Id("handler").Id(name+"Handler"),
 	).Block(
 		statements...,
