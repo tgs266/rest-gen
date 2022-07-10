@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/tgs266/rest-gen/compare/v0.2.0...v0.2.1) (2022-07-10)
+
+
+### Bug Fixes
+
+* fix handler being private ([3a8aae4](https://github.com/tgs266/rest-gen/commit/3a8aae43dc38cdf509e18e7da06d7a3449a37f6b))
+
 ## [0.2.0](https://github.com/tgs266/rest-gen/compare/v0.1.0...v0.2.0) (2022-07-10)
 
 
