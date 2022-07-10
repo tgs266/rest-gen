@@ -33,6 +33,9 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 
 	if object.Builder {
 		file.Add(writeStructBuilderType(name, object)).Line()
+		file.Add(writeNewStructBuilderFunction(name, object)).Line()
+		file.Add(writeStrctBuilderFieldFunctions(name, object)).Line()
+		file.Add(writeStructBuilderBuildFunction(name, object)).Line()
 	}
 
 	writeStructMarshal(file, "encoding/json", "MarshalJSON", name, object).Line()
@@ -116,4 +119,47 @@ func writeStructBuilderType(
 		structFields = append(structFields, code)
 	}
 	return jen.Type().Id(strcase.ToLowerCamel(name) + "Builder").Struct(structFields...)
+}
+
+func writeNewStructBuilderFunction(
+	name string,
+	object *spec.Object,
+) jen.Code {
+	return jen.Func().Id("New" + name + "Builder").Params().Op("*").Id(strcase.ToLowerCamel(name) + "Builder").Block(
+		jen.Return().Op("&").Id(strcase.ToLowerCamel(name) + "Builder").Block(),
+	)
+}
+
+func writeStrctBuilderFieldFunctions(
+	name string,
+	object *spec.Object,
+) jen.Code {
+	fcns := []jen.Code{}
+	for _, fieldName := range utils.GetSortedKeys(object.ParsedFields) {
+		capFName := strcase.ToCamel(fieldName)
+		fieldData := object.ParsedFields[fieldName]
+		code := jen.Func().Parens(jen.Id("builder").Id(strcase.ToLowerCamel(name)+"Builder")).Id("Set"+strcase.ToCamel(fieldName)).Params(jen.Id(fieldName).Add(fieldData.Type.Write())).Id(strcase.ToLowerCamel(name)+"Builder").Block(
+			jen.Id("builder").Dot(capFName).Op("=").Id(fieldName),
+			jen.Return().Id("builder"),
+		).Line()
+		fcns = append(fcns, code)
+	}
+	return jen.Empty().Add(fcns...)
+}
+
+func writeStructBuilderBuildFunction(
+	name string,
+	object *spec.Object,
+) jen.Code {
+	setters := []jen.Code{}
+	for _, fieldName := range utils.GetSortedKeys(object.ParsedFields) {
+		code := jen.Id(strcase.ToCamel(fieldName)).Op(":").Id("builder").Dot(strcase.ToCamel(fieldName)).Op(",")
+		setters = append(setters, code)
+	}
+	code := jen.Func().Parens(jen.Id("builder").Id(strcase.ToLowerCamel(name) + "Builder")).Id("Build").Params().Id(strcase.ToCamel(name)).Block(
+		jen.Return().Id(strcase.ToCamel(name)).Block(
+			setters...,
+		),
+	).Line()
+	return code
 }
