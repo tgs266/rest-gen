@@ -38,10 +38,10 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 		file.Add(writeStructBuilderBuildFunction(name, object)).Line()
 	}
 
-	writeStructMarshal(file, "encoding/json", "MarshalJSON", name, object).Line()
-	writeStructUnmarshal(file, "encoding/json", "UnmarshalJSON", name, object).Line()
-	writeStructMarshal(file, "gopkg.in/yaml.v3", "MarshalYAML", name, object).Line()
-	writeStructUnmarshal(file, "gopkg.in/yaml.v3", "UnmarshalYAML", name, object).Line()
+	// writeStructMarshal(file, "encoding/json", "MarshalJSON", name, object).Line()
+	// writeStructUnmarshal(file, "encoding/json", "UnmarshalJSON", name, object).Line()
+	// writeStructMarshal(file, "gopkg.in/yaml.v3", "MarshalYAML", name, object).Line()
+	// writeStructUnmarshal(file, "gopkg.in/yaml.v3", "UnmarshalYAML", name, object).Line()
 }
 
 func writeStructMarshal(

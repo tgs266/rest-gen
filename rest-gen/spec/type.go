@@ -51,6 +51,15 @@ func (o *Object) buildInternal(spec *Spec) error {
 
 func buildParsedField(spec *Spec, field Field) *ParsedField {
 	ty := types.ParseType(field.Type, spec.ParsedImports)
+	requiredValidation := true
+	if ty.GetBaseType() == types.TYPE_WRAPPER {
+		if ty.GetWrappedType() == types.OPTIONAL_WRAPPER {
+			requiredValidation = false
+		}
+	}
+	if requiredValidation && field.Validation == "" {
+		field.Validation = "required"
+	}
 	return &ParsedField{
 		Field: field,
 		Type:  ty,
@@ -60,9 +69,11 @@ func buildParsedField(spec *Spec, field Field) *ParsedField {
 func convertMapToField(spec *Spec, fieldData map[interface{}]interface{}) *ParsedField {
 	docs := fieldData["docs"].(string)
 	ty := fieldData["type"].(string)
+	v := fieldData["validation"].(string)
 	f := Field{
-		Docs: docs,
-		Type: ty,
+		Docs:       docs,
+		Type:       ty,
+		Validation: v,
 	}
 	return buildParsedField(spec, f)
 }

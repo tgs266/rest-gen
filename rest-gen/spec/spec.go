@@ -54,8 +54,9 @@ type Object struct {
 }
 
 type Field struct {
-	Type string `yaml:"type"`
-	Docs string `yaml:"docs"`
+	Validation string `yaml:"validation"`
+	Type       string `yaml:"type"`
+	Docs       string `yaml:"docs"`
 }
 
 type ParsedField struct {
