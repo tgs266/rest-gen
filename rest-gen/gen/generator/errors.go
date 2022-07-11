@@ -101,10 +101,10 @@ func (g *Generator) writeMarshalFcn(name string, object *spec.ErrorSpec) jen.Cod
 	}
 	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("MarshalJSON").Params().Parens(jen.List(jen.Index().Byte(), jen.Error())).Block(
 		jen.Id("params").Op(":=").Map(jen.String()).Interface().Values(paramDict),
-		jen.Id("m").Op(":=").Map(jen.String()).Interface().Values(jen.Dict{
-			jen.Lit("errorId"): jen.Id(obj).Dot("errorId"),
-			jen.Lit("code"):    jen.Id(obj).Dot("code"),
-			jen.Lit("params"):  jen.Id("params"),
+		jen.Id("m").Op(":=").Qual("github.com/tgs266/rest-gen/runtime", "StandardError").Values(jen.Dict{
+			jen.Id("ErrorId"): jen.Id(obj).Dot("errorId"),
+			jen.Id("Code"):    jen.Id(obj).Dot("code"),
+			jen.Id("Params"):  jen.Id("params"),
 		}),
 		jen.Return(jen.Qual("encoding/json", "Marshal").Call(jen.Id("m"))),
 	)
