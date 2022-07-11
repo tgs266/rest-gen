@@ -16,7 +16,7 @@ const (
 type StandardError struct {
 	ErrorId    string                 `json:"errorId"`
 	Code       string                 `json:"code"`
-	StatusCode int                    `json:""`
+	StatusCode int                    `json:"-"`
 	Name       string                 `json:"name"`
 	Params     map[string]interface{} `json:"params"`
 	cause      error
