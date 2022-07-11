@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/tgs266/rest-gen/compare/v0.7.0...v0.7.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* StandardError json response ([f0dd8bf](https://github.com/tgs266/rest-gen/commit/f0dd8bfdf196a11f9a91a589813aaaf317df73b6))
+
 ## [0.7.0](https://github.com/tgs266/rest-gen/compare/v0.6.1...v0.7.0) (2022-07-11)
 
 
