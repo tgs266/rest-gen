@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/iancoleman/strcase v0.2.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )

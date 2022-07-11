@@ -81,12 +81,12 @@ func (gsg GinServerGenerator) WriteBodyReader(varName string, ty types.TypeInter
 	)
 }
 
-func (gsg GinServerGenerator) WriteErrReturn(errName string) jen.Code {
-	return gsg.WriteErrReturnWithCode(500, errName)
+func (gsg GinServerGenerator) WriteErrReturn(code int, errName string) jen.Code {
+	return gsg.WriteErrReturnWithJenCode(code, jen.Id(errName))
 }
 
-func (gsg GinServerGenerator) WriteErrReturnWithCode(code int, errName string) jen.Code {
-	return jen.Id("ctx").Dot("AbortWithError").Call(jen.Lit(code), jen.Id(errName)).Line().Return()
+func (gsg GinServerGenerator) WriteErrReturnWithJenCode(code int, jenCode jen.Code) jen.Code {
+	return jen.Id("ctx").Dot("AbortWithError").Call(jen.Lit(code), jenCode).Line().Return()
 }
 
 func (gsg GinServerGenerator) WriteJsonReturn(value string) jen.Code {

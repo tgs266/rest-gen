@@ -13,8 +13,8 @@ import (
 type ServerGeneratorInterface interface {
 	WriteRegisterRoutes(name string, service *spec.ServiceSpec) jen.Code
 	WriteHandlerFunctionStub(handleType string, endpointName string, endpoint *spec.Endpoint) jen.Code
-	WriteErrReturn(errName string) jen.Code
-	WriteErrReturnWithCode(code int, errName string) jen.Code
+	WriteErrReturn(code int, errName string) jen.Code
+	WriteErrReturnWithJenCode(code int, jc jen.Code) jen.Code
 	WriteJsonReturn(valueName string) jen.Code
 	WriteStatusCodeReturn() jen.Code
 
@@ -83,7 +83,7 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 	resultName := endpointName + "Result"
 
 	fcnCall := jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("Handler").Dot(endpointName).Call(params...)
-	fcnHandle := jen.If(jen.Id("err").Op("!=").Nil()).Block(sg.generator.WriteErrReturn("err"))
+	fcnHandle := jen.If(jen.Id("err").Op("!=").Nil()).Block(sg.generator.WriteErrReturn(500, "err"))
 	var fcnReturn jen.Code
 	if endpoint.HasValueReturn() {
 		fcnReturn = sg.generator.WriteJsonReturn(resultName)
@@ -149,7 +149,7 @@ func writeBodyParamReader(gen ServerGeneratorInterface, argName string, ty types
 	code.Add(gen.WriteBodyReader(argName, ty))
 	if ty.GetBaseType() == types.TYPE_USER {
 		code.Line().If(jen.Err().Op(":=").Id(argName).Dot("Validate").Call(), jen.Err().Op("!=").Nil()).Block(
-			gen.WriteErrReturnWithCode(400, "err"),
+			gen.WriteErrReturnWithJenCode(400, jen.Qual("github.com/tgs266/rest-gen/runtime/errors", "NewInvalidArgumentError").Call(jen.Err())),
 		)
 	}
 	return code
