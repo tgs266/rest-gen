@@ -1,6 +1,8 @@
 package servergenerator
 
 import (
+	"strings"
+
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"github.com/tgs266/rest-gen/rest-gen/spec"
@@ -44,7 +46,11 @@ func (gsg GinServerGenerator) writeRegisterRoutesRoute(
 	case spec.DELETE:
 		fcnCall = "DELETE"
 	}
-	return jen.Id("router").Dot(fcnCall).Call(jen.Lit(endpoint.ParsedHTTP.Path), jen.Id(serviceName).Dot("Handle"+strcase.ToCamel(name)))
+	path := endpoint.ParsedHTTP.Path
+	for pathArg, _ := range endpoint.Args.Path {
+		path = strings.ReplaceAll(path, "{"+pathArg+"}", ":"+pathArg)
+	}
+	return jen.Id("router").Dot(fcnCall).Call(jen.Lit(path), jen.Id(serviceName).Dot("Handle"+strcase.ToCamel(name)))
 }
 
 func (gsg GinServerGenerator) WriteHandlerFunctionStub(
