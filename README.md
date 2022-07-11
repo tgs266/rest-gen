@@ -15,3 +15,9 @@ To run, define your specs, and then run
 ```
 rest-gen -i INPUT_FOLDER -o OUTPUT_FOLDER
 ```
+
+## Roadmap
+
+In no order
+* Add runtime package
+* Better error handling
