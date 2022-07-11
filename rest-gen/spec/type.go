@@ -5,6 +5,11 @@ import (
 	"github.com/tgs266/rest-gen/rest-gen/types"
 )
 
+func (o *Object) WriteValidator(name string, code *jen.Statement) {
+	code.Var().Id(name+"Validator").Op("=").Qual("github.com/go-playground/validator/v10", "New").Call().Line()
+	// .Op("*").Qual("github.com/go-playground/validator/v10", "Validate").Line()
+}
+
 func (o *Object) WriteDocs(code *jen.Statement) {
 	if o.Docs != "" {
 		code.Comment("o.Docs").Line()

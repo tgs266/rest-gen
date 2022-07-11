@@ -12,7 +12,11 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 	file := g.Files[FILETYPE_STRUCT]
 	statement := jen.Empty()
 
+	objectCamelName := strcase.ToCamel(name)
+	lowerObjectCamelName := strcase.ToLowerCamel(name)
+
 	object.WriteDocs(statement)
+	object.WriteValidator(lowerObjectCamelName, statement)
 	structFields := []jen.Code{}
 	for _, fieldName := range utils.GetSortedKeys(object.ParsedFields) {
 		fieldData := object.ParsedFields[fieldName]
@@ -21,15 +25,23 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 		if fieldData.Field.Docs != "" {
 			code.Comment(fieldData.Field.Docs).Line()
 		}
-		code.Id(strcase.ToCamel(fieldName)).Add(fieldData.Type.Write())
-		code.Tag(map[string]string{
-			"json": strcase.ToLowerCamel(fieldName),
-			"yaml": strcase.ToLowerCamel(fieldName),
-		})
+
+		camelName := strcase.ToCamel(fieldName)
+		lowerCamelName := strcase.ToLowerCamel(fieldName)
+
+		code.Id(camelName).Add(fieldData.Type.Write())
+		tags := map[string]string{
+			"json": lowerCamelName,
+			"yaml": lowerCamelName,
+		}
+		if fieldData.Field.Validation != "" {
+			tags["validate"] = fieldData.Field.Validation
+		}
+		code.Tag(tags)
 		structFields = append(structFields, code)
 	}
 
-	file.Add(statement).Type().Id(name).Struct(structFields...).Line()
+	file.Add(statement).Type().Id(objectCamelName).Struct(structFields...).Line()
 
 	if object.Builder {
 		file.Add(writeStructBuilderType(name, object)).Line()
@@ -38,10 +50,7 @@ func (g *Generator) writeStruct(name string, object *spec.Object) {
 		file.Add(writeStructBuilderBuildFunction(name, object)).Line()
 	}
 
-	// writeStructMarshal(file, "encoding/json", "MarshalJSON", name, object).Line()
-	// writeStructUnmarshal(file, "encoding/json", "UnmarshalJSON", name, object).Line()
-	// writeStructMarshal(file, "gopkg.in/yaml.v3", "MarshalYAML", name, object).Line()
-	// writeStructUnmarshal(file, "gopkg.in/yaml.v3", "UnmarshalYAML", name, object).Line()
+	file.Add(writeStructValidate(objectCamelName, object)).Line()
 }
 
 func writeStructMarshal(
@@ -161,5 +170,21 @@ func writeStructBuilderBuildFunction(
 			setters...,
 		),
 	).Line()
+	return code
+}
+
+// expect name as CamelCase
+func writeStructValidate(
+	camelName string,
+	object *spec.Object,
+) jen.Code {
+	lowerName := strcase.ToLowerCamel(camelName)
+	code := jen.Id("func").
+		Parens(jen.Id(lowerName).Id(camelName)).
+		Id("Validate").
+		Params().Error().
+		Block(
+			jen.Return(jen.Id(lowerName + "Validator")).Dot("Struct").Call(jen.Id(lowerName)),
+		)
 	return code
 }

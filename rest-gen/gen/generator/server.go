@@ -14,6 +14,7 @@ type ServerGeneratorInterface interface {
 	WriteRegisterRoutes(name string, service *spec.ServiceSpec) jen.Code
 	WriteHandlerFunctionStub(handleType string, endpointName string, endpoint *spec.Endpoint) jen.Code
 	WriteErrReturn(errName string) jen.Code
+	WriteErrReturnWithCode(code int, errName string) jen.Code
 	WriteJsonReturn(valueName string) jen.Code
 	WriteStatusCodeReturn() jen.Code
 
@@ -146,5 +147,10 @@ func writeQueryParamReader(gen ServerGeneratorInterface, argName string, ty type
 func writeBodyParamReader(gen ServerGeneratorInterface, argName string, ty types.TypeInterface) jen.Code {
 	code := jen.Empty()
 	code.Add(gen.WriteBodyReader(argName, ty))
+	if ty.GetBaseType() == types.TYPE_USER {
+		code.Line().If(jen.Err().Op(":=").Id(argName).Dot("Validate").Call(), jen.Err().Op("!=").Nil()).Block(
+			gen.WriteErrReturnWithCode(400, "err"),
+		)
+	}
 	return code
 }

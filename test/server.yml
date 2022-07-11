@@ -11,4 +11,5 @@ services:
         args:
           path:
             id: string
+          body: structs.Recipe
         returns: structs.Recipe
