@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/tgs266/rest-gen/compare/v0.8.0...v0.8.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* fix bson tag ([947efab](https://github.com/tgs266/rest-gen/commit/947efabf98b9d6d6b2ba0c1d8769873a232e11fd))
+
 ## [0.8.0](https://github.com/tgs266/rest-gen/compare/v0.7.2...v0.8.0) (2022-07-11)
 
 
