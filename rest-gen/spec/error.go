@@ -11,6 +11,9 @@ func (s *ErrorSpec) WriteErrorStruct(argName string) bool {
 }
 
 func (s *ErrorSpec) Parse(spec *Spec) error {
+	if s.StatusCode <= 0 {
+		s.StatusCode = 500
+	}
 	return s.buildInternal(spec)
 }
 

@@ -41,6 +41,7 @@ func (g *Generator) writeErrorWrapType(name string, object *spec.ErrorSpec) jen.
 		jen.Id("cause").Error(),
 		jen.Id("errorId").String(),
 		jen.Id("code").String(),
+		jen.Id("statusCode").Int(),
 	)
 }
 
@@ -58,6 +59,7 @@ func (g *Generator) writeErrorNewFunction(name string, object *spec.ErrorSpec) j
 		jen.Return(jen.Op("&").Id(name).Block(
 			jen.Id("cause").Op(":").Err().Op(","),
 			jen.Id("code").Op(":").Lit(object.Code).Op(","),
+			jen.Id("statusCode").Op(":").Lit(object.StatusCode).Op(","),
 			jen.Id("errorId").Op(":").Qual("github.com/google/uuid", "New").Call().Dot("String").Call().Op(","),
 			jen.Id(lowerName).Op(":").Id("e").Op(","),
 		)),
@@ -102,10 +104,11 @@ func (g *Generator) writeMarshalFcn(name string, object *spec.ErrorSpec) jen.Cod
 	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("MarshalJSON").Params().Parens(jen.List(jen.Index().Byte(), jen.Error())).Block(
 		jen.Id("params").Op(":=").Map(jen.String()).Interface().Values(paramDict),
 		jen.Id("m").Op(":=").Qual("github.com/tgs266/rest-gen/runtime/errors", "StandardError").Values(jen.Dict{
-			jen.Id("Name"):    jen.Lit(name),
-			jen.Id("ErrorId"): jen.Id(obj).Dot("errorId"),
-			jen.Id("Code"):    jen.Id(obj).Dot("code"),
-			jen.Id("Params"):  jen.Id("params"),
+			jen.Id("Name"):       jen.Lit(name),
+			jen.Id("ErrorId"):    jen.Id(obj).Dot("errorId"),
+			jen.Id("Code"):       jen.Id(obj).Dot("code"),
+			jen.Id("StatusCode"): jen.Id(obj).Dot("statusCode"),
+			jen.Id("Params"):     jen.Id("params"),
 		}),
 		jen.Return(jen.Qual("encoding/json", "Marshal").Call(jen.Id("m"))),
 	)

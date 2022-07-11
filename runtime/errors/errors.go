@@ -14,11 +14,12 @@ const (
 )
 
 type StandardError struct {
-	ErrorId string                 `json:"errorId"`
-	Code    string                 `json:"code"`
-	Name    string                 `json:"name"`
-	Params  map[string]interface{} `json:"params"`
-	cause   error
+	ErrorId    string                 `json:"errorId"`
+	Code       string                 `json:"code"`
+	StatusCode int                    `json:""`
+	Name       string                 `json:"name"`
+	Params     map[string]interface{} `json:"params"`
+	cause      error
 }
 
 func (se StandardError) Error() string {
@@ -29,11 +30,20 @@ func (se StandardError) Cause() error {
 	return se.cause
 }
 
+func IsStandardError(err error) bool {
+	if err == nil {
+		return false
+	}
+	_, ok := err.(StandardError)
+	return ok
+}
+
 func NewInvalidArgumentError(err error) StandardError {
 	return StandardError{
-		Code:    INVALID_ARGUMENT,
-		Name:    "InvalidArgument",
-		ErrorId: uuid.New().String(),
-		cause:   err,
+		Code:       INVALID_ARGUMENT,
+		StatusCode: 400,
+		Name:       "InvalidArgument",
+		ErrorId:    uuid.New().String(),
+		cause:      err,
 	}
 }

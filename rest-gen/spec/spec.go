@@ -100,6 +100,7 @@ type EndpointArgs struct {
 }
 
 type ErrorSpec struct {
+	StatusCode int                    `yaml:"statusCode"`
 	Code       string                 `yaml:"code"`
 	Docs       string                 `yaml:"docs"`
 	SafeArgs   map[string]interface{} `yaml:"safe-args"`

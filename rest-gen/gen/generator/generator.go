@@ -63,7 +63,6 @@ func (g *Generator) Run() {
 
 	for _, eName := range utils.GetSortedKeys(g.Spec.Errors) {
 		errSpec := g.Spec.Errors[eName]
-		fmt.Println(eName)
 		if err := errSpec.Parse(g.Spec); err != nil {
 			panic(fmt.Errorf("failed to parse error %s: %s", eName, err))
 		}

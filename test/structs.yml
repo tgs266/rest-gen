@@ -22,6 +22,7 @@ types:
 errors:
   MyError:
     code: test err
+    statusCode: 500
     docs: Went wrong
     safe-args:
       name: string 
