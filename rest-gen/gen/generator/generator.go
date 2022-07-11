@@ -17,6 +17,8 @@ const (
 
 	FILETYPE_SERVICE FileType = "services"
 	FILETYPE_SERVER  FileType = "servers"
+
+	FILETYPE_ERROR FileType = "errors"
 )
 
 type Generator struct {
@@ -59,6 +61,16 @@ func (g *Generator) Run() {
 		g.writeServer(sName, service, g.ServerGenerator)
 	}
 
+	for _, eName := range utils.GetSortedKeys(g.Spec.Errors) {
+		errSpec := g.Spec.Errors[eName]
+		fmt.Println(eName)
+		if err := errSpec.Parse(g.Spec); err != nil {
+			panic(fmt.Errorf("failed to parse error %s: %s", eName, err))
+		}
+		g.createFile(FILETYPE_ERROR)
+		g.writeError(eName, errSpec)
+	}
+
 	g.closeAll()
 }
 
@@ -89,4 +101,5 @@ func (g *Generator) closeAll() {
 	g.closeFile(FILETYPE_ALIAS)
 	g.closeFile(FILETYPE_SERVICE)
 	g.closeFile(FILETYPE_SERVER)
+	g.closeFile(FILETYPE_ERROR)
 }
