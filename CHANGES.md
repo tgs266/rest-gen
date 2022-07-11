@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/tgs266/rest-gen/compare/v0.4.0...v0.5.0) (2022-07-11)
+
+
+### Features
+
+* add runtime errors ([#16](https://github.com/tgs266/rest-gen/issues/16)) ([e0db72c](https://github.com/tgs266/rest-gen/commit/e0db72c6911766910c434f4ef887245f6fd6744f))
+
 ## [0.4.0](https://github.com/tgs266/rest-gen/compare/v0.3.0...v0.4.0) (2022-07-11)
 
 
