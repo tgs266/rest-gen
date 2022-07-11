@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.0](https://github.com/tgs266/rest-gen/compare/v0.2.1...v0.3.0) (2022-07-11)
+
+
+### Features
+
+* improved error handling and validation ([d762668](https://github.com/tgs266/rest-gen/commit/d7626681aa061cfde118c2f5df654a7759cb4dc1))
+
+
+### Bug Fixes
+
+* remove marshals causing stack overflows ([a59ebfb](https://github.com/tgs266/rest-gen/commit/a59ebfba56013b2dca7f5698e4b980158f57d32b))
+
+
+### Documentation
+
+* add roadmpa ([abafdc2](https://github.com/tgs266/rest-gen/commit/abafdc2bd7db6dcc8228d3e8e7f8b592971fbfe3))
+
 ## [0.2.1](https://github.com/tgs266/rest-gen/compare/v0.2.0...v0.2.1) (2022-07-10)
 
 
