@@ -40,7 +40,7 @@ func (o *Object) WriteDef(name string) jen.Code {
 			tags["validate"] = fieldData.Field.Validation
 		}
 		if o.BSON {
-			tags["bson"] = fieldData.Field.Validation
+			tags["bson"] = lowerCamelName
 		}
 		code.Tag(tags)
 		structFields = append(structFields, code)
