@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/tgs266/rest-gen/compare/v0.7.1...v0.7.2) (2022-07-11)
+
+
+### Bug Fixes
+
+* fix gin generation issue with path params ([8437970](https://github.com/tgs266/rest-gen/commit/84379701adc960cda0a2471f5298d570bde7e1d6))
+
 ## [0.7.1](https://github.com/tgs266/rest-gen/compare/v0.7.0...v0.7.1) (2022-07-11)
 
 
