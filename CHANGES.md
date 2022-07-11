@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/tgs266/rest-gen/compare/v0.7.2...v0.8.0) (2022-07-11)
+
+
+### Features
+
+* add bson option tag ([019dbe5](https://github.com/tgs266/rest-gen/commit/019dbe5ec324b630731a69df49993c7a842ffd4b))
+
 ## [0.7.2](https://github.com/tgs266/rest-gen/compare/v0.7.1...v0.7.2) (2022-07-11)
 
 
