@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/tgs266/rest-gen/compare/v0.6.1...v0.7.0) (2022-07-11)
+
+
+### Features
+
+* add status code to error ([c884510](https://github.com/tgs266/rest-gen/commit/c8845101706f590bbe7c284dad020d7cd1b3457f))
+
 ## [0.6.1](https://github.com/tgs266/rest-gen/compare/v0.6.0...v0.6.1) (2022-07-11)
 
 
