@@ -45,6 +45,7 @@ type TypeSpec struct {
 }
 
 type Object struct {
+	BSON         bool                   `yaml:"bson"`
 	Builder      bool                   `yaml:"builder"`
 	Docs         string                 `yaml:"docs"`
 	Fields       map[string]interface{} `yaml:"fields"`

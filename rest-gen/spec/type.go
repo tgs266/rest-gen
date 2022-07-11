@@ -39,6 +39,9 @@ func (o *Object) WriteDef(name string) jen.Code {
 		if fieldData.Field.Validation != "" {
 			tags["validate"] = fieldData.Field.Validation
 		}
+		if o.BSON {
+			tags["bson"] = fieldData.Field.Validation
+		}
 		code.Tag(tags)
 		structFields = append(structFields, code)
 	}
