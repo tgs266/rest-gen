@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/tgs266/rest-gen/compare/v0.5.0...v0.6.0) (2022-07-11)
+
+
+### Features
+
+* runtime invalid argument error ([f872882](https://github.com/tgs266/rest-gen/commit/f8728829479bbe1fbbecce38e0b895568307e0f0))
+
 ## [0.5.0](https://github.com/tgs266/rest-gen/compare/v0.4.0...v0.5.0) (2022-07-11)
 
 
