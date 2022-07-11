@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/tgs266/rest-gen/compare/v0.6.0...v0.6.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* remove needs-filler error ([cf4ddce](https://github.com/tgs266/rest-gen/commit/cf4ddce5bcde0793c07577e082a8cf2e246f341c))
+
 ## [0.6.0](https://github.com/tgs266/rest-gen/compare/v0.5.0...v0.6.0) (2022-07-11)
 
 
