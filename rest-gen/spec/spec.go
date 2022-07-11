@@ -33,10 +33,11 @@ const (
 
 type Spec struct {
 	Package       string   `yaml:"package"`
-	Types         TypeSpec `yaml:"types"`
+	Imports       []string `yaml:"imports"`
 	ParsedImports map[string]types.Import
-	Imports       []string                `yaml:"imports"`
+	Types         TypeSpec                `yaml:"types"`
 	Services      map[string]*ServiceSpec `yaml:"services"`
+	Errors        map[string]*ErrorSpec   `yaml:"errors"`
 }
 
 type TypeSpec struct {
@@ -96,6 +97,14 @@ type EndpointArgs struct {
 	Path  map[string]interface{} `yaml:"path"`
 	Query map[string]interface{} `yaml:"query"`
 	Body  interface{}            `yaml:"body"`
+}
+
+type ErrorSpec struct {
+	Code       string                 `yaml:"code"`
+	Docs       string                 `yaml:"docs"`
+	SafeArgs   map[string]interface{} `yaml:"safe-args"`
+	UnsafeArgs map[string]interface{} `yaml:"unsafe-args"`
+	ParsedArgs map[string]*ParsedField
 }
 
 func (s *Spec) Parse(baseImportPath string) {

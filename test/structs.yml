@@ -18,3 +18,12 @@ types:
         id: string
         name: string
         steps: list<Step>
+
+errors:
+  MyError:
+    code: test err
+    docs: Went wrong
+    safe-args:
+      name: string 
+    unsafe-args:
+      namespace: string

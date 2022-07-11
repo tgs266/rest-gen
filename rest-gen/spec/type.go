@@ -2,7 +2,9 @@ package spec
 
 import (
 	"github.com/dave/jennifer/jen"
+	"github.com/iancoleman/strcase"
 	"github.com/tgs266/rest-gen/rest-gen/types"
+	"github.com/tgs266/rest-gen/rest-gen/utils"
 )
 
 func (o *Object) WriteValidator(name string, code *jen.Statement) {
@@ -12,8 +14,35 @@ func (o *Object) WriteValidator(name string, code *jen.Statement) {
 
 func (o *Object) WriteDocs(code *jen.Statement) {
 	if o.Docs != "" {
-		code.Comment("o.Docs").Line()
+		code.Comment(o.Docs).Line()
 	}
+}
+
+func (o *Object) WriteDef(name string) jen.Code {
+	structFields := []jen.Code{}
+	for _, fieldName := range utils.GetSortedKeys(o.ParsedFields) {
+		fieldData := o.ParsedFields[fieldName]
+		code := jen.Empty()
+
+		if fieldData.Field.Docs != "" {
+			code.Comment(fieldData.Field.Docs).Line()
+		}
+
+		camelName := strcase.ToCamel(fieldName)
+		lowerCamelName := strcase.ToLowerCamel(fieldName)
+
+		code.Id(camelName).Add(fieldData.Type.Write())
+		tags := map[string]string{
+			"json": lowerCamelName,
+			"yaml": lowerCamelName,
+		}
+		if fieldData.Field.Validation != "" {
+			tags["validate"] = fieldData.Field.Validation
+		}
+		code.Tag(tags)
+		structFields = append(structFields, code)
+	}
+	return jen.Type().Id(name).Struct(structFields...)
 }
 
 func (o *Object) Parse(spec *Spec) error {
