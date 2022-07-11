@@ -77,7 +77,7 @@ func (gsg GinServerGenerator) WriteQueryParamArrayReader(varName string, ty type
 func (gsg GinServerGenerator) WriteBodyReader(varName string, ty types.TypeInterface) jen.Code {
 	return jen.Var().Id(varName).Add(ty.Write()).Line().
 		If(jen.Id("err").Op(":=").Id("ctx").Dot("ShouldBindJSON").Call(jen.Op("&").Id(varName)), jen.Id("err").Op("!=").Nil()).Block(
-		jen.Panic(jen.Lit("needs filler")),
+		gsg.WriteErrReturn(500, "err"),
 	)
 }
 
