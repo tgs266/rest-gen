@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/tgs266/rest-gen/compare/v0.8.1...v0.9.0) (2022-07-12)
+
+
+### Features
+
+* header and cookie auth ([#25](https://github.com/tgs266/rest-gen/issues/25)) ([7312d43](https://github.com/tgs266/rest-gen/commit/7312d43f19b10e0ee0b799579042282186e91ed1))
+
 ## [0.8.1](https://github.com/tgs266/rest-gen/compare/v0.8.0...v0.8.1) (2022-07-11)
 
 
