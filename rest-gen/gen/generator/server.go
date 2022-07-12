@@ -17,6 +17,8 @@ type ServerGeneratorInterface interface {
 	WriteErrReturnWithJenCode(code int, jc jen.Code) jen.Code
 	WriteJsonReturn(valueName string) jen.Code
 	WriteStatusCodeReturn() jen.Code
+	WriteCookieReader(varName string, cookieName string) jen.Code
+	WriteHeaderReader(varName string, headerName string) jen.Code
 
 	WritePathParamReader(varName string, argName string) jen.Code
 	WriteQueryParamReader(varName string, argName string) jen.Code
@@ -26,6 +28,7 @@ type ServerGeneratorInterface interface {
 
 type ServerGenerator struct {
 	generator ServerGeneratorInterface
+	auth      *spec.Auth
 }
 
 func (g *Generator) writeServer(
@@ -35,6 +38,7 @@ func (g *Generator) writeServer(
 ) {
 	sg := &ServerGenerator{
 		generator: generatorImpl,
+		auth:      service.ParsedAuth,
 	}
 
 	file := g.Files[FILETYPE_SERVER]
@@ -67,6 +71,13 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 	code := sg.generator.WriteHandlerFunctionStub(handleType, endpointName, endpoint)
 	lines := []jen.Code{}
 	params := []jen.Code{}
+	if sg.auth != nil {
+		if sg.auth.Type == spec.AUTH_COOKIE {
+			lines = append(lines, sg.generator.WriteCookieReader("authToken", sg.auth.Name))
+		} else if sg.auth.Type == spec.AUTH_HEADER {
+			lines = append(lines, sg.generator.WriteHeaderReader("authToken", sg.auth.Name))
+		}
+	}
 	for _, argName := range utils.GetSortedKeys(endpoint.ParsedArgs) {
 		arg := endpoint.ParsedArgs[argName]
 		switch arg.ArgLocation {
@@ -78,6 +89,9 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 			lines = append(lines, writeBodyParamReader(sg.generator, argName, arg.Type))
 		}
 		params = append(params, jen.Id(argName))
+	}
+	if sg.auth != nil {
+		params = append(params, jen.Qual("github.com/tgs266/rest-gen/runtime/auth", "Token").Call(jen.Id("authToken")))
 	}
 
 	resultName := endpointName + "Result"

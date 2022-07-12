@@ -87,6 +87,13 @@ func (gsg GinServerGenerator) WriteBodyReader(varName string, ty types.TypeInter
 	)
 }
 
+func (gsg GinServerGenerator) WriteCookieReader(varName string, cookieName string) jen.Code {
+	return jen.List(jen.Id(varName), jen.Id("_")).Op(":=").Id("ctx").Dot("Cookie").Call(jen.Lit(cookieName))
+}
+func (gsg GinServerGenerator) WriteHeaderReader(varName string, headerName string) jen.Code {
+	return jen.Id(varName).Op(":=").Id("ctx").Dot("GetHeader").Call(jen.Lit(headerName))
+}
+
 func (gsg GinServerGenerator) WriteErrReturn(code int, errName string) jen.Code {
 	return gsg.WriteErrReturnWithJenCode(code, jen.Id(errName))
 }

@@ -4,6 +4,7 @@ imports:
 services:
   RecipeService:
     base-path: /api/v1/recipe
+    auth: header
     endpoints:
       getRecipe:
         http: GET /{id}
