@@ -7,6 +7,18 @@ import (
 	"github.com/tgs266/rest-gen/rest-gen/types"
 )
 
+type AuthType string
+
+const (
+	AUTH_COOKIE AuthType = "COOKIE"
+	AUTH_HEADER AuthType = "HEADER"
+)
+
+type Auth struct {
+	Type AuthType
+	Name string
+}
+
 type ObjectType = string
 
 const (
@@ -68,11 +80,11 @@ type ParsedField struct {
 }
 
 type ServiceSpec struct {
-	Package       string   `yaml:"package"`
-	Imports       []string `yaml:"imports"`
-	BasePath      string   `yaml:"base-path"`
-	ParsedImports map[string]types.Import
-	Endpoints     map[string]*Endpoint `yaml:"endpoints"`
+	Package    string               `yaml:"package"`
+	BasePath   string               `yaml:"base-path"`
+	Endpoints  map[string]*Endpoint `yaml:"endpoints"`
+	Auth       string               `yaml:"auth"`
+	ParsedAuth *Auth
 }
 
 type HTTP struct {

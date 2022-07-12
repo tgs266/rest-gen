@@ -16,19 +16,19 @@ func writeServiceInterface(file *jen.File, name string, service *spec.ServiceSpe
 	statements := []jen.Code{}
 	for _, endpointName := range utils.GetSortedKeys(service.Endpoints) {
 		endpoint := service.Endpoints[endpointName]
-		statements = append(statements, writeServiceInterfaceStub(endpointName, endpoint))
+		statements = append(statements, writeServiceInterfaceStub(endpointName, endpoint, service.ParsedAuth != nil))
 	}
 	file.Type().Id(name + "Interface").Interface(
 		statements...,
 	)
 }
 
-func writeServiceInterfaceStub(endpointName string, endpoint *spec.Endpoint) jen.Code {
+func writeServiceInterfaceStub(endpointName string, endpoint *spec.Endpoint, auth bool) jen.Code {
 	code := jen.Empty()
 	endpointCamelName := strcase.ToCamel(endpointName)
 	endpoint.WriteDocs(code).
 		Id(endpointCamelName).
-		Add(endpoint.WriteParams()).
+		Add(endpoint.WriteParams(auth)).
 		Add(endpoint.WriteReturn())
 	return code
 }

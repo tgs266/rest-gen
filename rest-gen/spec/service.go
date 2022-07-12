@@ -9,11 +9,14 @@ import (
 	"github.com/tgs266/rest-gen/rest-gen/utils"
 )
 
-func (e *Endpoint) WriteParams() *jen.Statement {
+func (e *Endpoint) WriteParams(auth bool) *jen.Statement {
 	params := []jen.Code{}
 	for _, argName := range utils.GetSortedKeys(e.ParsedArgs) {
 		arg := e.ParsedArgs[argName]
 		params = append(params, jen.Id(argName).Add(arg.Type.Write()))
+	}
+	if auth {
+		params = append(params, jen.Id("authToken").Qual("github.com/tgs266/rest-gen/runtime/auth", "Token"))
 	}
 	return jen.Params(params...)
 }
@@ -51,6 +54,22 @@ func (o *Endpoint) WriteDocs(code *jen.Statement) *jen.Statement {
 }
 
 func (s *ServiceSpec) Parse(spec *Spec) error {
+	if s.Auth != "" {
+		if strings.HasPrefix(s.Auth, "cookie") {
+			name := strings.Split(s.Auth, ":")[1]
+			s.ParsedAuth = &Auth{
+				Name: name,
+				Type: AUTH_COOKIE,
+			}
+		} else if strings.HasPrefix(s.Auth, "header") {
+			s.ParsedAuth = &Auth{
+				Name: "Authorization",
+				Type: AUTH_HEADER,
+			}
+		} else {
+			return fmt.Errorf("auth type %s not supported", s.Auth)
+		}
+	}
 	httpValidate := map[string]string{}
 	for eName, endpoint := range s.Endpoints {
 		splitHttp := strings.Split(endpoint.HTTP, " ")
