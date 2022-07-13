@@ -11,7 +11,7 @@ var (
 	INVALID_ARGUMENT = ErrorType{"INVALID_ARGUMENT", 400}
 	NOT_FOUND        = ErrorType{"NOT_FOUND", 404}
 	INTERNAL         = ErrorType{"INTERNAL", 500}
-	UNAUTHORIZED     = ErrorType{"UNAUTHORIZED", 500}
+	UNAUTHORIZED     = ErrorType{"UNAUTHORIZED", 401}
 )
 
 var KnownErrorCode = map[string]ErrorType{
