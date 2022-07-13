@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/tgs266/rest-gen/compare/v0.10.0...v0.10.1) (2022-07-13)
+
+
+### Bug Fixes
+
+* modify package name ([9790540](https://github.com/tgs266/rest-gen/commit/9790540a588104c0e0887b0fb1471a066977a384))
+
 ## [0.10.0](https://github.com/tgs266/rest-gen/compare/v0.9.1...v0.10.0) (2022-07-13)
 
 
