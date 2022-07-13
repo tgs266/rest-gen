@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.4](https://github.com/tgs266/rest-gen/compare/v0.10.3...v0.10.4) (2022-07-13)
+
+
+### Bug Fixes
+
+* fix alias ([a419083](https://github.com/tgs266/rest-gen/commit/a4190836d36b351979fc065f57a59f20ee083bcf))
+
 ## [0.10.3](https://github.com/tgs266/rest-gen/compare/v0.10.2...v0.10.3) (2022-07-13)
 
 
