@@ -9,5 +9,5 @@ func (g *Generator) writeAlias(name string, object *spec.Object) {
 	file := g.Files[FILETYPE_ALIAS]
 	code := jen.Empty()
 	object.WriteDocs(code)
-	file.Add(code).Type().Id(name).Op("=").Add(object.ParsedAlias.Write()).Line()
+	file.Add(code).Type().Id(name).Add(object.ParsedAlias.Write()).Line()
 }

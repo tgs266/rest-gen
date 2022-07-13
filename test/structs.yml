@@ -1,6 +1,8 @@
 package: com.restgen.recipe.structs
 types:
   objects:
+    Test:
+      alias: string
     Measurement:
       builder: true
       docs: |
