@@ -28,6 +28,11 @@ var KnownErrorCode = map[string]ErrorCode{
 	"UNAUTHORIZED":     UNAUTHORIZED,
 }
 
+type StandardErrorInterface interface {
+	Error() string
+	Cause() string
+}
+
 type StandardError struct {
 	ErrorId    string                 `json:"errorId"`
 	Code       string                 `json:"code"`
@@ -72,7 +77,7 @@ func IsStandardError(err error) bool {
 	if err == nil {
 		return false
 	}
-	_, ok := err.(StandardError)
+	_, ok := err.(StandardErrorInterface)
 	return ok
 }
 
