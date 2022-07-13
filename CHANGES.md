@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/tgs266/rest-gen/compare/v0.12.0...v0.12.1) (2022-07-13)
+
+
+### Bug Fixes
+
+* **runtime/errors:** add geterror fcn ([d63e811](https://github.com/tgs266/rest-gen/commit/d63e8116d834207afbc3b275c6fc0374d21574ae))
+
 ## [0.12.0](https://github.com/tgs266/rest-gen/compare/v0.11.1...v0.12.0) (2022-07-13)
 
 
