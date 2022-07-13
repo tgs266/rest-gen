@@ -115,8 +115,8 @@ type EndpointArgs struct {
 }
 
 type ErrorSpec struct {
-	ErrorCode       string `yaml:"errorCode"`
-	ParsedErrorCode errors.ErrorCode
+	ErrorType       string `yaml:"errorType"`
+	ParsedErrorType errors.ErrorType
 	Docs            string                 `yaml:"docs"`
 	SafeArgs        map[string]interface{} `yaml:"safeArgs"`
 	UnsafeArgs      map[string]interface{} `yaml:"unsafeArgs"`

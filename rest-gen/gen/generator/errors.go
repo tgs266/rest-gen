@@ -29,6 +29,8 @@ func (g *Generator) writeError(name string, object *spec.ErrorSpec) {
 	statement.Add(g.writeIsErrorFunction(objectCamelName, object)).Line().Line()
 	statement.Add(g.writeGetCause(objectCamelName, object)).Line().Line()
 	statement.Add(g.writeGetCode(objectCamelName, object)).Line().Line()
+	statement.Add(g.writeGetName(objectCamelName, object)).Line().Line()
+	statement.Add(g.writeGetErrorId(objectCamelName, object)).Line().Line()
 	statement.Add(g.writeErrorStringFunction(objectCamelName, object)).Line().Line()
 	statement.Add(g.writeMarshalFcn(objectCamelName, object)).Line().Line()
 
@@ -40,8 +42,6 @@ func (g *Generator) writeErrorWrapType(name string, object *spec.ErrorSpec) jen.
 		jen.Id(strcase.ToLowerCamel(name)),
 		jen.Id("cause").Error(),
 		jen.Id("errorId").String(),
-		jen.Id("code").String(),
-		jen.Id("statusCode").Int(),
 	)
 }
 
@@ -58,8 +58,6 @@ func (g *Generator) writeErrorNewFunction(name string, object *spec.ErrorSpec) j
 		jen.Id("e").Op(":=").Id(lowerName).Block(fields...),
 		jen.Return(jen.Op("&").Id(name).Block(
 			jen.Id("cause").Op(":").Err().Op(","),
-			jen.Id("code").Op(":").Qual("github.com/tgs266/rest-gen/runtime/errors", object.ParsedErrorCode.Code).Dot("Code").Op(","),
-			jen.Id("statusCode").Op(":").Qual("github.com/tgs266/rest-gen/runtime/errors", object.ParsedErrorCode.Code).Dot("StatusCode").Op(","),
 			jen.Id("errorId").Op(":").Qual("github.com/google/uuid", "New").Call().Dot("String").Call().Op(","),
 			jen.Id(lowerName).Op(":").Id("e").Op(","),
 		)),
@@ -81,15 +79,27 @@ func (g *Generator) writeGetCause(name string, object *spec.ErrorSpec) jen.Code 
 }
 
 func (g *Generator) writeGetCode(name string, object *spec.ErrorSpec) jen.Code {
-	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("Code").Params().String().Block(
-		jen.Return(jen.Id(strcase.ToLowerCamel(name)).Dot("code")),
+	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("Code").Params().Int().Block(
+		jen.Return(jen.Qual("github.com/tgs266/rest-gen/runtime/errors", object.ErrorType).Dot("Code").Call()),
+	)
+}
+
+func (g *Generator) writeGetName(name string, object *spec.ErrorSpec) jen.Code {
+	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("Name").Params().String().Block(
+		jen.Return(jen.Lit(fmt.Sprintf("%s:%s", name, object.ErrorType))),
+	)
+}
+
+func (g *Generator) writeGetErrorId(name string, object *spec.ErrorSpec) jen.Code {
+	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("ErrorId").Params().String().Block(
+		jen.Return(jen.Id(strcase.ToLowerCamel(name)).Dot("errorId")),
 	)
 }
 
 func (g *Generator) writeErrorStringFunction(name string, object *spec.ErrorSpec) jen.Code {
 	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("Error").Params().String().Block(
 		jen.Return(jen.Qual("fmt", "Sprintf").Call(jen.Lit(
-			fmt.Sprintf("%s: %%s", object.ParsedErrorCode.Code),
+			fmt.Sprintf("%s:%s: %%s", name, object.ErrorType),
 		), jen.Id(strcase.ToLowerCamel(name)).Dot("errorId"))),
 	)
 }
@@ -98,16 +108,15 @@ func (g *Generator) writeMarshalFcn(name string, object *spec.ErrorSpec) jen.Cod
 	obj := strcase.ToLowerCamel(name)
 	paramDict := jen.Dict{}
 	for _, arg := range utils.GetSortedKeys(object.SafeArgs) {
-		paramDict[jen.Lit(arg)] = jen.Id(obj).Dot(obj).Dot(strcase.ToCamel(arg))
+		paramDict[jen.Lit(arg)] = jen.Id("e").Dot(obj).Dot(strcase.ToCamel(arg))
 	}
-	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("MarshalJSON").Params().Parens(jen.List(jen.Index().Byte(), jen.Error())).Block(
+	return jen.Func().Parens(jen.Id("e").Id(name)).Id("MarshalJSON").Params().Parens(jen.List(jen.Index().Byte(), jen.Error())).Block(
 		jen.Id("params").Op(":=").Map(jen.String()).Interface().Values(paramDict),
-		jen.Id("m").Op(":=").Qual("github.com/tgs266/rest-gen/runtime/errors", "StandardError").Values(jen.Dict{
-			jen.Id("Name"):       jen.Lit(name),
-			jen.Id("ErrorId"):    jen.Id(obj).Dot("errorId"),
-			jen.Id("Code"):       jen.Id(obj).Dot("code"),
-			jen.Id("StatusCode"): jen.Id(obj).Dot("statusCode"),
-			jen.Id("Params"):     jen.Id("params"),
+		jen.Id("m").Op(":=").Qual("github.com/tgs266/rest-gen/runtime/errors", "SerializableError").Values(jen.Dict{
+			jen.Id("ErrorName"):  jen.Id("e").Dot("Name").Call(),
+			jen.Id("ErrorId"):    jen.Id("e").Dot("ErrorId").Call(),
+			jen.Id("ErrorCode"):  jen.Id("e").Dot("Code").Call(),
+			jen.Id("Parameters"): jen.Id("params"),
 		}),
 		jen.Return(jen.Qual("encoding/json", "Marshal").Call(jen.Id("m"))),
 	)

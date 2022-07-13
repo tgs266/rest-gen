@@ -6,11 +6,11 @@ import (
 	"github.com/tgs266/rest-gen/runtime/errors"
 )
 
-func ErrorCodeFromString(errorCodeName string, spec *Spec) (errors.ErrorCode, error) {
+func ErrorCodeFromString(errorCodeName string, spec *Spec) (errors.ErrorType, error) {
 	if v, exists := errors.KnownErrorCode[errorCodeName]; exists {
 		return v, nil
 	}
-	return errors.ErrorCode{}, fmt.Errorf("error code %s unknown", errorCodeName)
+	return errors.ErrorType{}, fmt.Errorf("error code %s unknown", errorCodeName)
 }
 
 func (s *ErrorSpec) IsSafe(argName string) bool {
@@ -24,11 +24,11 @@ func (s *ErrorSpec) WriteErrorStruct(argName string) bool {
 }
 
 func (s *ErrorSpec) Parse(spec *Spec) error {
-	ec, err := ErrorCodeFromString(s.ErrorCode, spec)
+	ec, err := ErrorCodeFromString(s.ErrorType, spec)
 	if err != nil {
 		return err
 	}
-	s.ParsedErrorCode = ec
+	s.ParsedErrorType = ec
 	return s.buildInternal(spec)
 }
 

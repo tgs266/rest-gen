@@ -23,7 +23,7 @@ types:
 
 errors:
   MyError:
-    errorCode: INTERNAL
+    errorType: INTERNAL
     docs: Went wrong
     safeArgs:
       name: string 
