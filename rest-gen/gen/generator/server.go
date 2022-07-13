@@ -95,7 +95,6 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 	}
 
 	resultName := endpointName + "Result"
-
 	fcnCall := jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("Handler").Dot(endpointName).Call(params...)
 	fcnHandle := jen.If(jen.Id("err").Op("!=").Nil()).Block(sg.generator.WriteErrReturn(500, "err"))
 	var fcnReturn jen.Code
