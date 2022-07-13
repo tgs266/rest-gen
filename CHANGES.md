@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/tgs266/rest-gen/compare/v0.10.4...v0.11.0) (2022-07-13)
+
+
+### Features
+
+* add context ([73c58bb](https://github.com/tgs266/rest-gen/commit/73c58bb535fb68e43d0db99f9ff72a1ec992df40))
+
 ## [0.10.4](https://github.com/tgs266/rest-gen/compare/v0.10.3...v0.10.4) (2022-07-13)
 
 
