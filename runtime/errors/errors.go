@@ -7,11 +7,26 @@ import (
 )
 
 type Code = string
+type StatusCode = int
 
-const (
-	INVALID_ARGUMENT      Code = "INVALID_ARGUMENT"
-	INTERNAL_SERVER_ERROR Code = "INTERNAL_SERVER_ERROR"
+type ErrorCode struct {
+	Code
+	StatusCode
+}
+
+var (
+	INVALID_ARGUMENT = ErrorCode{"INVALID_ARGUMENT", 400}
+	NOT_FOUND        = ErrorCode{"NOT_FOUND", 404}
+	INTERNAL         = ErrorCode{"INTERNAL", 500}
+	UNAUTHORIZED     = ErrorCode{"UNAUTHORIZED", 500}
 )
+
+var KnownErrorCode = map[string]ErrorCode{
+	"INVALID_ARGUMENT": INVALID_ARGUMENT,
+	"NOT_FOUND":        NOT_FOUND,
+	"INTERNAL":         INTERNAL,
+	"UNAUTHORIZED":     UNAUTHORIZED,
+}
 
 type StandardError struct {
 	ErrorId    string                 `json:"errorId"`
@@ -20,6 +35,29 @@ type StandardError struct {
 	Name       string                 `json:"name"`
 	Params     map[string]interface{} `json:"params"`
 	cause      error
+}
+
+type name = string
+type value = interface{}
+
+type Param struct {
+	name
+	value
+}
+
+func Wrap(err error, name string, errorCode ErrorCode, params ...Param) StandardError {
+	joinedParams := map[string]interface{}{}
+	for _, p := range params {
+		joinedParams[p.name] = p.value
+	}
+	return StandardError{
+		ErrorId:    uuid.New().String(),
+		Code:       errorCode.Code,
+		Name:       name,
+		StatusCode: errorCode.StatusCode,
+		Params:     joinedParams,
+		cause:      err,
+	}
 }
 
 func (se StandardError) Error() string {
@@ -39,11 +77,5 @@ func IsStandardError(err error) bool {
 }
 
 func NewInvalidArgumentError(err error) StandardError {
-	return StandardError{
-		Code:       INVALID_ARGUMENT,
-		StatusCode: 400,
-		Name:       "InvalidArgument",
-		ErrorId:    uuid.New().String(),
-		cause:      err,
-	}
+	return Wrap(err, "InvalidArgument", INVALID_ARGUMENT)
 }

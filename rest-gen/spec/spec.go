@@ -5,6 +5,7 @@ import (
 
 	"github.com/iancoleman/strcase"
 	"github.com/tgs266/rest-gen/rest-gen/types"
+	"github.com/tgs266/rest-gen/runtime/errors"
 )
 
 type AuthType string
@@ -113,12 +114,12 @@ type EndpointArgs struct {
 }
 
 type ErrorSpec struct {
-	StatusCode int                    `yaml:"statusCode"`
-	Code       string                 `yaml:"code"`
-	Docs       string                 `yaml:"docs"`
-	SafeArgs   map[string]interface{} `yaml:"safe-args"`
-	UnsafeArgs map[string]interface{} `yaml:"unsafe-args"`
-	ParsedArgs map[string]*ParsedField
+	ErrorCode       string `yaml:"errorCode"`
+	ParsedErrorCode errors.ErrorCode
+	Docs            string                 `yaml:"docs"`
+	SafeArgs        map[string]interface{} `yaml:"safeArgs"`
+	UnsafeArgs      map[string]interface{} `yaml:"unsafeArgs"`
+	ParsedArgs      map[string]*ParsedField
 }
 
 func (s *Spec) Parse(baseImportPath string) {

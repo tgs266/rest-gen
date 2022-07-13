@@ -1,5 +1,18 @@
 package spec
 
+import (
+	"fmt"
+
+	"github.com/tgs266/rest-gen/runtime/errors"
+)
+
+func ErrorCodeFromString(errorCodeName string, spec *Spec) (errors.ErrorCode, error) {
+	if v, exists := errors.KnownErrorCode[errorCodeName]; exists {
+		return v, nil
+	}
+	return errors.ErrorCode{}, fmt.Errorf("error code %s unknown", errorCodeName)
+}
+
 func (s *ErrorSpec) IsSafe(argName string) bool {
 	_, exists := s.SafeArgs[argName]
 	return exists
@@ -11,9 +24,11 @@ func (s *ErrorSpec) WriteErrorStruct(argName string) bool {
 }
 
 func (s *ErrorSpec) Parse(spec *Spec) error {
-	if s.StatusCode <= 0 {
-		s.StatusCode = 500
+	ec, err := ErrorCodeFromString(s.ErrorCode, spec)
+	if err != nil {
+		return err
 	}
+	s.ParsedErrorCode = ec
 	return s.buildInternal(spec)
 }
 

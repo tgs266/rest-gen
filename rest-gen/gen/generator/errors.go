@@ -58,8 +58,8 @@ func (g *Generator) writeErrorNewFunction(name string, object *spec.ErrorSpec) j
 		jen.Id("e").Op(":=").Id(lowerName).Block(fields...),
 		jen.Return(jen.Op("&").Id(name).Block(
 			jen.Id("cause").Op(":").Err().Op(","),
-			jen.Id("code").Op(":").Lit(object.Code).Op(","),
-			jen.Id("statusCode").Op(":").Lit(object.StatusCode).Op(","),
+			jen.Id("code").Op(":").Qual("github.com/tgs266/rest-gen/runtime/errors", object.ParsedErrorCode.Code).Dot("Code").Op(","),
+			jen.Id("statusCode").Op(":").Qual("github.com/tgs266/rest-gen/runtime/errors", object.ParsedErrorCode.Code).Dot("StatusCode").Op(","),
 			jen.Id("errorId").Op(":").Qual("github.com/google/uuid", "New").Call().Dot("String").Call().Op(","),
 			jen.Id(lowerName).Op(":").Id("e").Op(","),
 		)),
@@ -87,10 +87,9 @@ func (g *Generator) writeGetCode(name string, object *spec.ErrorSpec) jen.Code {
 }
 
 func (g *Generator) writeErrorStringFunction(name string, object *spec.ErrorSpec) jen.Code {
-
 	return jen.Func().Parens(jen.Id(strcase.ToLowerCamel(name)).Id(name)).Id("Error").Params().String().Block(
 		jen.Return(jen.Qual("fmt", "Sprintf").Call(jen.Lit(
-			fmt.Sprintf("%s: %%s", object.Code),
+			fmt.Sprintf("%s: %%s", object.ParsedErrorCode.Code),
 		), jen.Id(strcase.ToLowerCamel(name)).Dot("errorId"))),
 	)
 }

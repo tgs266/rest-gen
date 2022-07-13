@@ -24,7 +24,7 @@ errors:
     code: test err
     statusCode: 500
     docs: Went wrong
-    safe-args:
+    safeArgs:
       name: string 
-    unsafe-args:
+    unsafeArgs:
       namespace: string
