@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.3](https://github.com/tgs266/rest-gen/compare/v0.10.2...v0.10.3) (2022-07-13)
+
+
+### Bug Fixes
+
+* why isn't pkg picking this up lol ([e5dee50](https://github.com/tgs266/rest-gen/commit/e5dee502da70008c90409944f7582e429c27743c))
+
 ## [0.10.2](https://github.com/tgs266/rest-gen/compare/v0.10.1...v0.10.2) (2022-07-13)
 
 
