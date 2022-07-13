@@ -127,6 +127,17 @@ func IsErrorOfType(err error, errorType ErrorType) bool {
 	return false
 }
 
+func GetError(err error) Error {
+	if v, ok := err.(Error); ok {
+		return v
+	}
+	return standardError{
+		errorId:   uuid.NewString(),
+		errorType: INTERNAL,
+		cause:     err,
+	}
+}
+
 func NewInvalidArgumentError(err error) Error {
 	return Wrap(err, "InvalidArgument", INVALID_ARGUMENT)
 }
