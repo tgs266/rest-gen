@@ -91,7 +91,7 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 		params = append(params, jen.Id(argName))
 	}
 	if sg.auth != nil {
-		params = append(params, jen.Qual("github.com/tgs266/rest-gen/runtime/token", "Token").Call(jen.Id("authToken")))
+		params = append(params, jen.Qual("github.com/tgs266/rest-gen/runtime/authentication", "Token").Call(jen.Id("authToken")))
 	}
 
 	resultName := endpointName + "Result"

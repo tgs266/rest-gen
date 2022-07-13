@@ -16,7 +16,7 @@ func (e *Endpoint) WriteParams(auth bool) *jen.Statement {
 		params = append(params, jen.Id(argName).Add(arg.Type.Write()))
 	}
 	if auth {
-		params = append(params, jen.Id("authToken").Qual("github.com/tgs266/rest-gen/runtime/token", "Token"))
+		params = append(params, jen.Id("authToken").Qual("github.com/tgs266/rest-gen/runtime/authentication", "Token"))
 	}
 	return jen.Params(params...)
 }
