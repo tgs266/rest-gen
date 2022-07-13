@@ -21,8 +21,7 @@ types:
 
 errors:
   MyError:
-    code: test err
-    statusCode: 500
+    errorCode: INTERNAL
     docs: Went wrong
     safeArgs:
       name: string 
