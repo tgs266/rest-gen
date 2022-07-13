@@ -15,6 +15,10 @@ var ginImport = "github.com/gin-gonic/gin"
 type GinServerGenerator struct {
 }
 
+func (gsg GinServerGenerator) GetContextParameter() jen.Code {
+	return jen.Id("ctx").Op("*").Qual(ginImport, "Context")
+}
+
 func (gsg GinServerGenerator) WriteRegisterRoutes(name string, service *spec.ServiceSpec) jen.Code {
 	statements := []jen.Code{}
 	for _, endpointName := range utils.GetSortedKeys(service.Endpoints) {

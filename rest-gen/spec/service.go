@@ -9,8 +9,11 @@ import (
 	"github.com/tgs266/rest-gen/rest-gen/utils"
 )
 
-func (e *Endpoint) WriteParams(auth bool) *jen.Statement {
+func (e *Endpoint) WriteParams(auth bool, context bool, contextJen jen.Code) *jen.Statement {
 	params := []jen.Code{}
+	if context {
+		params = append(params, contextJen)
+	}
 	for _, argName := range utils.GetSortedKeys(e.ParsedArgs) {
 		arg := e.ParsedArgs[argName]
 		params = append(params, jen.Id(argName).Add(arg.Type.Write()))

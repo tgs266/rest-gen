@@ -11,6 +11,7 @@ import (
 )
 
 type ServerGeneratorInterface interface {
+	GetContextParameter() jen.Code
 	WriteRegisterRoutes(name string, service *spec.ServiceSpec) jen.Code
 	WriteHandlerFunctionStub(handleType string, endpointName string, endpoint *spec.Endpoint) jen.Code
 	WriteErrReturn(code int, errName string) jen.Code
@@ -29,6 +30,7 @@ type ServerGeneratorInterface interface {
 type ServerGenerator struct {
 	generator ServerGeneratorInterface
 	auth      *spec.Auth
+	context   bool
 }
 
 func (g *Generator) writeServer(
@@ -39,6 +41,7 @@ func (g *Generator) writeServer(
 	sg := &ServerGenerator{
 		generator: generatorImpl,
 		auth:      service.ParsedAuth,
+		context:   service.Context,
 	}
 
 	file := g.Files[FILETYPE_SERVER]
@@ -77,6 +80,9 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 		} else if sg.auth.Type == spec.AUTH_HEADER {
 			lines = append(lines, sg.generator.WriteHeaderReader("authToken", sg.auth.Name))
 		}
+	}
+	if sg.context {
+		params = append(params, jen.Id("ctx"))
 	}
 	for _, argName := range utils.GetSortedKeys(endpoint.ParsedArgs) {
 		arg := endpoint.ParsedArgs[argName]

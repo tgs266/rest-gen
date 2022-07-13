@@ -85,6 +85,7 @@ type ServiceSpec struct {
 	BasePath   string               `yaml:"base-path"`
 	Endpoints  map[string]*Endpoint `yaml:"endpoints"`
 	Auth       string               `yaml:"auth"`
+	Context    bool                 `yaml:"context"`
 	ParsedAuth *Auth
 }
 
