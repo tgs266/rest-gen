@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/tgs266/rest-gen/compare/v0.9.0...v0.9.1) (2022-07-12)
+
+
+### Bug Fixes
+
+* remove gin deps ([5fa26e6](https://github.com/tgs266/rest-gen/commit/5fa26e68315720517bda6d4829f4389cd1a0faec))
+
 ## [0.9.0](https://github.com/tgs266/rest-gen/compare/v0.8.1...v0.9.0) (2022-07-12)
 
 
