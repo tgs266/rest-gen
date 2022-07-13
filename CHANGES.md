@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/tgs266/rest-gen/compare/v0.11.0...v0.11.1) (2022-07-13)
+
+
+### Bug Fixes
+
+* **runtime/errors:** add interface ([adafa27](https://github.com/tgs266/rest-gen/commit/adafa2771102e05de6f582e8371dd85d3b49a8e1))
+
 ## [0.11.0](https://github.com/tgs266/rest-gen/compare/v0.10.4...v0.11.0) (2022-07-13)
 
 
