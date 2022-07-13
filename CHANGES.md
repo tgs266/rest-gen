@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/tgs266/rest-gen/compare/v0.11.1...v0.12.0) (2022-07-13)
+
+
+### Features
+
+* error modifications ([851dc98](https://github.com/tgs266/rest-gen/commit/851dc989a80818266b00c7c96568a1a80ad5a618))
+
 ## [0.11.1](https://github.com/tgs266/rest-gen/compare/v0.11.0...v0.11.1) (2022-07-13)
 
 
