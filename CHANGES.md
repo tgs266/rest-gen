@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0](https://github.com/tgs266/rest-gen/compare/v0.12.1...v0.13.0) (2022-07-16)
+
+
+### Features
+
+* add new internal error ([04fc21e](https://github.com/tgs266/rest-gen/commit/04fc21ece1462194ef4b3a987930abcfc2fc97a8))
+
+
+### Bug Fixes
+
+* Unauthed code ([459de96](https://github.com/tgs266/rest-gen/commit/459de964865802ecaa03f8ce347c20e26b24f504))
+
 ## [0.12.1](https://github.com/tgs266/rest-gen/compare/v0.12.0...v0.12.1) (2022-07-13)
 
 
