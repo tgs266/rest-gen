@@ -64,7 +64,7 @@ type Param struct {
 	value
 }
 
-func Wrap(err error, name string, errorType ErrorType, params ...Param) Error {
+func Wrap(err error, name string, errorType ErrorType, params ...Param) standardError {
 	joinedParams := map[string]interface{}{}
 	for _, p := range params {
 		joinedParams[p.name] = p.value
@@ -138,9 +138,9 @@ func GetError(err error) Error {
 	}
 }
 
-func NewInvalidArgumentError(err error) Error {
+func NewInvalidArgumentError(err error) standardError {
 	return Wrap(err, "InvalidArgument", INVALID_ARGUMENT)
 }
-func NewInternalError(err error) Error {
+func NewInternalError(err error) standardError {
 	return Wrap(err, "Internal", INTERNAL)
 }
