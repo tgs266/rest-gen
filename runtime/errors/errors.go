@@ -22,11 +22,11 @@ var KnownErrorCode = map[string]ErrorType{
 }
 
 type Error interface {
-	error
 	Cause() error
 	Code() int
 	Name() string
 	ErrorId() string
+	Error() string
 }
 
 type ErrorType struct {
