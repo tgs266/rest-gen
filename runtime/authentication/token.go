@@ -1,7 +1,7 @@
 package authentication
 
 // Token represents a bearer token, generally sent by a REST client in a
-// Authorization or Cookie header for authentication purposes.
+// Authorization or Cookie header for authentication.
 type Token string
 
 func (t Token) String() string {
