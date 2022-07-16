@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.3](https://github.com/tgs266/rest-gen/compare/v0.13.2...v0.13.3) (2022-07-16)
+
+
+### Bug Fixes
+
+* version pickup ([f13d13c](https://github.com/tgs266/rest-gen/commit/f13d13c43193224ad98f1238248f212079056d06))
+
 ## [0.13.2](https://github.com/tgs266/rest-gen/compare/v0.13.1...v0.13.2) (2022-07-16)
 
 
