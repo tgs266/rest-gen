@@ -138,9 +138,9 @@ func GetError(err error) Error {
 	}
 }
 
-func NewInvalidArgumentError(err error) standardError {
+func NewInvalidArgumentError(err error) error {
 	return Wrap(err, "InvalidArgument", INVALID_ARGUMENT)
 }
-func NewInternalError(err error) standardError {
+func NewInternalError(err error) error {
 	return Wrap(err, "Internal", INTERNAL)
 }
