@@ -144,3 +144,6 @@ func NewInvalidArgumentError(err error) error {
 func NewInternalError(err error) error {
 	return Wrap(err, "Internal", INTERNAL)
 }
+func NewNotFound(err error) error {
+	return Wrap(err, "NotFound", NOT_FOUND)
+}
