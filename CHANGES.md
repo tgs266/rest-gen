@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.4](https://github.com/tgs266/rest-gen/compare/v0.13.3...v0.13.4) (2022-07-16)
+
+
+### Bug Fixes
+
+* add not found ([35f9c69](https://github.com/tgs266/rest-gen/commit/35f9c69517e3a61fe8ff294f5e4767d5282d5f12))
+
 ## [0.13.3](https://github.com/tgs266/rest-gen/compare/v0.13.2...v0.13.3) (2022-07-16)
 
 
