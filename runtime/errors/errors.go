@@ -141,3 +141,6 @@ func GetError(err error) Error {
 func NewInvalidArgumentError(err error) Error {
 	return Wrap(err, "InvalidArgument", INVALID_ARGUMENT)
 }
+func NewInternalError(err error) Error {
+	return Wrap(err, "Internal", INTERNAL)
+}
