@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.2](https://github.com/tgs266/rest-gen/compare/v0.13.1...v0.13.2) (2022-07-16)
+
+
+### Bug Fixes
+
+* maybe errors work now ([abe8ba2](https://github.com/tgs266/rest-gen/commit/abe8ba286a8ac8dfbd20ccd7370c0e988d828776))
+* now it definitely works ([278b588](https://github.com/tgs266/rest-gen/commit/278b588e4ff3a72b54a3595f5c8d41170cecc22c))
+
 ## [0.13.1](https://github.com/tgs266/rest-gen/compare/v0.13.0...v0.13.1) (2022-07-16)
 
 
