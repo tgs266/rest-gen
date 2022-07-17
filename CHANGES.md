@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.1](https://github.com/tgs266/rest-gen/compare/v0.16.0...v0.16.1) (2022-07-17)
+
+
+### Bug Fixes
+
+* actually implement ([f2475fe](https://github.com/tgs266/rest-gen/commit/f2475fedba656ee969299cb37369336dbdb458ff))
+
 ## [0.16.0](https://github.com/tgs266/rest-gen/compare/v0.15.1...v0.16.0) (2022-07-17)
 
 
