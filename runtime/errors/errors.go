@@ -12,6 +12,7 @@ var (
 	NOT_FOUND        = ErrorType{"NOT_FOUND", 404}
 	INTERNAL         = ErrorType{"INTERNAL", 500}
 	UNAUTHORIZED     = ErrorType{"UNAUTHORIZED", 401}
+	FORBIDDEN        = ErrorType{"FORBIDDEN", 403}
 )
 
 var KnownErrorCode = map[string]ErrorType{
@@ -146,4 +147,7 @@ func NewInternalError(err error) error {
 }
 func NewNotFound(err error) error {
 	return Wrap(err, "NotFound", NOT_FOUND)
+}
+func NewForbidden(err error) error {
+	return Wrap(err, "Forbidden", FORBIDDEN)
 }
