@@ -107,7 +107,11 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 	)
 	var fcnReturn jen.Code
 	if endpoint.HasValueReturn() {
-		fcnReturn = sg.generator.WriteJsonReturn(resultName)
+		if endpoint.ContentType == "application/json" {
+			fcnReturn = sg.generator.WriteJsonReturn(resultName)
+		} else {
+			fcnReturn = sg.generator.WriteBinaryReturn(resultName)
+		}
 	} else {
 		fcnReturn = sg.generator.WriteStatusCodeReturn()
 	}

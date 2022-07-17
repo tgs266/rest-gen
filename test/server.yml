@@ -15,3 +15,12 @@ services:
             id: string
           body: structs.Recipe
         returns: structs.Recipe
+      test:
+        http: GET /{id}
+        docs: returns a single recipe
+        contentType: application/octet-stream
+        args:
+          path:
+            id: string
+          body: structs.Recipe
+        returns: binary
