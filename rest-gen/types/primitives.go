@@ -19,6 +19,7 @@ type Primitive struct {
 var PRIMITIVES = map[string]TypeInterface{
 	"string":  makePrimitive("string", true),
 	"byte":    makePrimitive("byte", false),
+	"binary":  makePrimitive("[]byte", false),
 	"short":   makePrimitive("int16", false),
 	"int":     makePrimitive("int", false),
 	"long":    makePrimitive("int64", false),

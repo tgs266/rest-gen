@@ -110,6 +110,10 @@ func (gsg GinServerGenerator) WriteJsonReturn(value string) jen.Code {
 	return jen.Id("ctx").Dot("JSON").Call(jen.Qual("net/http", "StatusOK"), jen.Id(value)).Line().Return()
 }
 
+func (gsg GinServerGenerator) WriteBinaryReturn(value string) jen.Code {
+	return jen.Id("ctx").Dot("Data").Call(jen.Qual("net/http", "StatusOK"), jen.Lit("application/octet-stream"), jen.Id(value)).Line().Return()
+}
+
 func (gsg GinServerGenerator) WriteStatusCodeReturn() jen.Code {
 	return jen.Id("ctx").Dot("Status").Call(jen.Qual("net/http", "StatusOK")).Line().Return()
 }

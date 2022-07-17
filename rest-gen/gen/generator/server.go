@@ -17,6 +17,7 @@ type ServerGeneratorInterface interface {
 	WriteErrReturn(code int, errName string) jen.Code
 	WriteErrReturnWithJenCode(code int, jc jen.Code) jen.Code
 	WriteJsonReturn(valueName string) jen.Code
+	WriteBinaryReturn(valueName string) jen.Code
 	WriteStatusCodeReturn() jen.Code
 	WriteCookieReader(varName string, cookieName string) jen.Code
 	WriteHeaderReader(varName string, headerName string) jen.Code

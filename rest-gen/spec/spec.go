@@ -106,6 +106,7 @@ type Endpoint struct {
 	ParsedArgs    map[string]*ParsedField
 	ParsedReturns *ParsedField
 	ParsedHTTP    HTTP
+	ContentType   string `yaml:"returnType"`
 }
 
 type EndpointArgs struct {

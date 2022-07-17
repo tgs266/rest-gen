@@ -108,6 +108,16 @@ func (s *ServiceSpec) Parse(spec *Spec) error {
 }
 
 func (e *Endpoint) Parse(spec *Spec) error {
+	if e.ContentType == "" {
+		e.ContentType = "application/json"
+	} else {
+		switch e.ContentType {
+		case "application/json", "application/octet-stream":
+			break
+		default:
+			return fmt.Errorf("content type %s not supported", e.ContentType)
+		}
+	}
 	if err := e.buildInternal(spec); err != nil {
 		return err
 	}
