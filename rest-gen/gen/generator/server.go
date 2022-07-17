@@ -101,17 +101,16 @@ func (sg *ServerGenerator) writeServerHandlerFunction(handleType string, endpoin
 	}
 
 	resultName := endpointName + "Result"
-	fcnCall := jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("Handler").Dot(endpointName).Call(params...)
-	fcnHandle := jen.If(jen.Id("err").Op("!=").Nil()).Block(sg.generator.WriteErrReturn(500, "err"))
+	fcnCall := jen.If(jen.List(endpoint.WriteReturnValue(jen.Id(resultName), jen.Id("err"))).Op(":=").Id("handler").Dot("Handler").Dot(endpointName).Call(params...), jen.Err().Op("!=").Nil()).Block(
+		sg.generator.WriteErrReturn(500, "err"),
+	)
 	var fcnReturn jen.Code
 	if endpoint.HasValueReturn() {
 		fcnReturn = sg.generator.WriteJsonReturn(resultName)
 	} else {
 		fcnReturn = sg.generator.WriteStatusCodeReturn()
 	}
-	lines = append(lines, fcnCall)
-	lines = append(lines, fcnHandle)
-	lines = append(lines, fcnReturn)
+	lines = append(lines, fcnCall.Else().Block(fcnReturn))
 	return jen.Add(code).Block(lines...)
 }
 
