@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/tgs266/rest-gen/compare/v0.14.0...v0.15.0) (2022-07-17)
+
+
+### Features
+
+* add unathed ([75ce092](https://github.com/tgs266/rest-gen/commit/75ce092895263669990bb0bbc96b07cc5ab71c7c))
+
 ## [0.14.0](https://github.com/tgs266/rest-gen/compare/v0.13.4...v0.14.0) (2022-07-17)
 
 
