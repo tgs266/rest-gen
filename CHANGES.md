@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/tgs266/rest-gen/compare/v0.13.4...v0.14.0) (2022-07-17)
+
+
+### Features
+
+* add forbidden ([f945d71](https://github.com/tgs266/rest-gen/commit/f945d71a8686518dcc81f802273c3f758d968362))
+
 ## [0.13.4](https://github.com/tgs266/rest-gen/compare/v0.13.3...v0.13.4) (2022-07-16)
 
 
