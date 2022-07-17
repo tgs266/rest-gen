@@ -151,3 +151,6 @@ func NewNotFound(err error) error {
 func NewForbidden(err error) error {
 	return Wrap(err, "Forbidden", FORBIDDEN)
 }
+func NewUnauthorized(err error) error {
+	return Wrap(err, "Unauthorized", UNAUTHORIZED)
+}
